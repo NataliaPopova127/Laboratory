@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ColorDictionary.xaml"/>
+        <ResourceDictionary>
+            <Style TargetType="Button">
+                <Setter Property="Background" Value="{StaticResource mainBackgroundColor2}"/>
+            </Style>
+            <Style TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            </Style>
+            <Style TargetType="Border">
+                <Setter Property="Background" Value="{StaticResource mainBackgroundColor2}"/>
+            </Style>
+        </ResourceDictionary>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

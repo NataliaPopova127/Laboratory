@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Хранилище LabolatoryDBModelContainer" CdmEntityContainer="LabolatoryDBEntities">
+    <EntitySetMapping Name="Employes">
+      <EntityTypeMapping TypeName="LabolatoryDBModel.Employes">
+        <MappingFragment StoreEntitySet="Employes">
+          <ScalarProperty Name="isDelete" ColumnName="isDelete" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Login" ColumnName="Login" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Patient">
+      <EntityTypeMapping TypeName="LabolatoryDBModel.Patient">
+        <MappingFragment StoreEntitySet="Patient">
+          <ScalarProperty Name="isDelete" ColumnName="isDelete" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="Login" ColumnName="Login" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Ip" ColumnName="Ip" />
+          <ScalarProperty Name="Lastenter" ColumnName="Lastenter" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Pasport" ColumnName="Pasport" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Role">
+      <EntityTypeMapping TypeName="LabolatoryDBModel.Role">
+        <MappingFragment StoreEntitySet="Role">
+          <ScalarProperty Name="isDelete" ColumnName="isDelete" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Value" ColumnName="Value" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Services">
+      <EntityTypeMapping TypeName="LabolatoryDBModel.Services">
+        <MappingFragment StoreEntitySet="Services">
+          <ScalarProperty Name="isDelete" ColumnName="isDelete" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Service" ColumnName="Service" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Deviation" ColumnName="Deviation" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EmployeHasLastTime">
+      <EntityTypeMapping TypeName="LabolatoryDBModel.EmployeHasLastTime">
+        <MappingFragment StoreEntitySet="EmployeHasLastTime">
+          <ScalarProperty Name="isDelete" ColumnName="isDelete" />
+          <ScalarProperty Name="Id_Employe" ColumnName="Id_Employe" />
+          <ScalarProperty Name="LastTime" ColumnName="LastTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="EmployeHasServices" TypeName="LabolatoryDBModel.EmployeHasServices" StoreEntitySet="EmployeHasServices">
+      <EndProperty Name="Employes">
+        <ScalarProperty Name="Id" ColumnName="Id_Employee" />
+      </EndProperty>
+      <EndProperty Name="Services">
+        <ScalarProperty Name="Code" ColumnName="Id_Services" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <EntitySetMapping Name="Analyzer">
+      <EntityTypeMapping TypeName="LabolatoryDBModel.Analyzer">
+        <MappingFragment StoreEntitySet="Analyzer">
+          <ScalarProperty Name="isDelete" ColumnName="isDelete" />
+          <ScalarProperty Name="DateOfWork" ColumnName="DateOfWork" />
+          <ScalarProperty Name="DateOfStart" ColumnName="DateOfStart" />
+          <ScalarProperty Name="Code_Service" ColumnName="Code_Service" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Order">
+      <EntityTypeMapping TypeName="LabolatoryDBModel.Order">
+        <MappingFragment StoreEntitySet="Order">
+          <ScalarProperty Name="AmountDayForCreate" ColumnName="AmountDayForCreate" />
+          <ScalarProperty Name="StatusOrder_Id" ColumnName="StatusOrder_Id" />
+          <ScalarProperty Name="StatusService_Id" ColumnName="StatusService_Id" />
+          <ScalarProperty Name="DateOfCreate" ColumnName="DateOfCreate" />
+          <ScalarProperty Name="Id_Service" ColumnName="Id_Service" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StatusOrder">
+      <EntityTypeMapping TypeName="LabolatoryDBModel.StatusOrder">
+        <MappingFragment StoreEntitySet="StatusOrder">
+          <ScalarProperty Name="Value" ColumnName="Value" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StatusService">
+      <EntityTypeMapping TypeName="LabolatoryDBModel.StatusService">
+        <MappingFragment StoreEntitySet="StatusService">
+          <ScalarProperty Name="Value" ColumnName="Value" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

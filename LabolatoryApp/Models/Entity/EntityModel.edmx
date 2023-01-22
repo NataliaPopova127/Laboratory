@@ -1,0 +1,624 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище LabolatoryDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "LabolatoryDB.dbo.Analyzer" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="Analyzer">
+          <Key>
+            <PropertyRef Name="Code_Service" />
+            <PropertyRef Name="DateOfStart" />
+            <PropertyRef Name="DateOfWork" />
+            <PropertyRef Name="isDelete" />
+          </Key>
+          <Property Name="Code_Service" Type="int" Nullable="false" />
+          <Property Name="DateOfStart" Type="datetime" Nullable="false" />
+          <Property Name="DateOfWork" Type="datetime" Nullable="false" />
+          <Property Name="isDelete" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "LabolatoryDB.dbo.EmployeHasLastTime" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="EmployeHasLastTime">
+          <Key>
+            <PropertyRef Name="Id_Employe" />
+            <PropertyRef Name="LastTime" />
+            <PropertyRef Name="isDelete" />
+          </Key>
+          <Property Name="Id_Employe" Type="int" Nullable="false" />
+          <Property Name="LastTime" Type="datetime" Nullable="false" />
+          <Property Name="isDelete" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmployeHasServices">
+          <Key>
+            <PropertyRef Name="Id_Employee" />
+            <PropertyRef Name="Id_Services" />
+          </Key>
+          <Property Name="Id_Employee" Type="int" Nullable="false" />
+          <Property Name="Id_Services" Type="int" Nullable="false" />
+          <Property Name="isDelete" Type="bit" />
+        </EntityType>
+        <EntityType Name="Employes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="isDelete" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id_Service" />
+          </Key>
+          <Property Name="Id_Service" Type="int" Nullable="false" />
+          <Property Name="DateOfCreate" Type="datetime" Nullable="false" />
+          <Property Name="StatusService_Id" Type="int" Nullable="false" />
+          <Property Name="StatusOrder_Id" Type="int" Nullable="false" />
+          <Property Name="AmountDayForCreate" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Ip" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Lastenter" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Pasport" Type="int" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="isDelete" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="isDelete" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Services">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="int" Nullable="false" />
+          <Property Name="Service" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Price" Type="float" Nullable="false" />
+          <Property Name="Date" Type="date" />
+          <Property Name="Deviation" Type="float" />
+          <Property Name="isDelete" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StatusOrder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StatusService">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Analyzer_Services">
+          <End Role="Services" Type="Self.Services" Multiplicity="1" />
+          <End Role="Analyzer" Type="Self.Analyzer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="Analyzer">
+              <PropertyRef Name="Code_Service" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeHasLastTime_Employes">
+          <End Role="Employes" Type="Self.Employes" Multiplicity="1" />
+          <End Role="EmployeHasLastTime" Type="Self.EmployeHasLastTime" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeHasLastTime">
+              <PropertyRef Name="Id_Employe" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeHasServices_Employes">
+          <End Role="Employes" Type="Self.Employes" Multiplicity="1" />
+          <End Role="EmployeHasServices" Type="Self.EmployeHasServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeHasServices">
+              <PropertyRef Name="Id_Employee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeHasServices_Services">
+          <End Role="Services" Type="Self.Services" Multiplicity="1" />
+          <End Role="EmployeHasServices" Type="Self.EmployeHasServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="EmployeHasServices">
+              <PropertyRef Name="Id_Services" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employes_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="Employes" Type="Self.Employes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employes">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_StatusOrder">
+          <End Role="StatusOrder" Type="Self.StatusOrder" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusOrder">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="StatusOrder_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_StatusService">
+          <End Role="StatusService" Type="Self.StatusService" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusService">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="StatusService_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Services_Order">
+          <End Role="Order" Type="Self.Order" Multiplicity="1" />
+          <End Role="Services" Type="Self.Services" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id_Service" />
+            </Principal>
+            <Dependent Role="Services">
+              <PropertyRef Name="Code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище LabolatoryDBModelContainer">
+          <EntitySet Name="EmployeHasServices" EntityType="Self.EmployeHasServices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employes" EntityType="Self.Employes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Patient" EntityType="Self.Patient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Services" EntityType="Self.Services" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StatusOrder" EntityType="Self.StatusOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StatusService" EntityType="Self.StatusService" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Analyzer" EntityType="Self.Analyzer" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Analyzer].[Code_Service] AS [Code_Service], 
+    [Analyzer].[DateOfStart] AS [DateOfStart], 
+    [Analyzer].[DateOfWork] AS [DateOfWork], 
+    [Analyzer].[isDelete] AS [isDelete]
+    FROM [dbo].[Analyzer] AS [Analyzer]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="EmployeHasLastTime" EntityType="Self.EmployeHasLastTime" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [EmployeHasLastTime].[Id_Employe] AS [Id_Employe], 
+    [EmployeHasLastTime].[LastTime] AS [LastTime], 
+    [EmployeHasLastTime].[isDelete] AS [isDelete]
+    FROM [dbo].[EmployeHasLastTime] AS [EmployeHasLastTime]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Analyzer_Services" Association="Self.FK_Analyzer_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="Analyzer" EntitySet="Analyzer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeHasLastTime_Employes" Association="Self.FK_EmployeHasLastTime_Employes">
+            <End Role="Employes" EntitySet="Employes" />
+            <End Role="EmployeHasLastTime" EntitySet="EmployeHasLastTime" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeHasServices_Employes" Association="Self.FK_EmployeHasServices_Employes">
+            <End Role="Employes" EntitySet="Employes" />
+            <End Role="EmployeHasServices" EntitySet="EmployeHasServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeHasServices_Services" Association="Self.FK_EmployeHasServices_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="EmployeHasServices" EntitySet="EmployeHasServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employes_Role" Association="Self.FK_Employes_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="Employes" EntitySet="Employes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_StatusOrder" Association="Self.FK_Order_StatusOrder">
+            <End Role="StatusOrder" EntitySet="StatusOrder" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_StatusService" Association="Self.FK_Order_StatusService">
+            <End Role="StatusService" EntitySet="StatusService" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Services_Order" Association="Self.FK_Services_Order">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="Services" EntitySet="Services" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LabolatoryDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Employes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="EmployeHasLastTime" Relationship="Self.FK_EmployeHasLastTime_Employes" FromRole="Employes" ToRole="EmployeHasLastTime" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_Employes_Role" FromRole="Employes" ToRole="Role" />
+          <NavigationProperty Name="Services" Relationship="Self.EmployeHasServices" FromRole="Employes" ToRole="Services" />
+          <Property Name="isDelete" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Ip" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Lastenter" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="Pasport" Type="Int32" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="isDelete" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Employes" Relationship="Self.FK_Employes_Role" FromRole="Role" ToRole="Employes" />
+          <Property Name="isDelete" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Services">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" />
+          <Property Name="Service" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Price" Type="Double" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="Deviation" Type="Double" />
+          <NavigationProperty Name="Employes" Relationship="Self.EmployeHasServices" FromRole="Services" ToRole="Employes" />
+          <Property Name="isDelete" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Analyzer" Relationship="LabolatoryDBModel.FK_Analyzer_Services" FromRole="Services" ToRole="Analyzer" />
+          <NavigationProperty Name="Order" Relationship="LabolatoryDBModel.FK_Services_Order" FromRole="Services" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="EmployeHasLastTime">
+          <Key>
+            <PropertyRef Name="Id_Employe" />
+            <PropertyRef Name="LastTime" />
+            <PropertyRef Name="isDelete" />
+          </Key>
+          <Property Name="Id_Employe" Type="Int32" Nullable="false" />
+          <Property Name="LastTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Employes" Relationship="Self.FK_EmployeHasLastTime_Employes" FromRole="EmployeHasLastTime" ToRole="Employes" />
+          <Property Name="isDelete" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_EmployeHasLastTime_Employes">
+          <End Role="Employes" Type="Self.Employes" Multiplicity="1" />
+          <End Role="EmployeHasLastTime" Type="Self.EmployeHasLastTime" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeHasLastTime">
+              <PropertyRef Name="Id_Employe" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employes_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="Employes" Type="Self.Employes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employes">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EmployeHasServices">
+          <End Role="Employes" Type="Self.Employes" Multiplicity="*" />
+          <End Role="Services" Type="Self.Services" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="LabolatoryDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Employes" EntityType="Self.Employes" />
+          <EntitySet Name="Patient" EntityType="Self.Patient" />
+          <EntitySet Name="Role" EntityType="Self.Role" />
+          <EntitySet Name="Services" EntityType="Self.Services" />
+          <EntitySet Name="EmployeHasLastTime" EntityType="Self.EmployeHasLastTime" />
+          <AssociationSet Name="FK_EmployeHasLastTime_Employes" Association="Self.FK_EmployeHasLastTime_Employes">
+            <End Role="Employes" EntitySet="Employes" />
+            <End Role="EmployeHasLastTime" EntitySet="EmployeHasLastTime" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employes_Role" Association="Self.FK_Employes_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="Employes" EntitySet="Employes" />
+          </AssociationSet>
+          <AssociationSet Name="EmployeHasServices" Association="Self.EmployeHasServices">
+            <End Role="Employes" EntitySet="Employes" />
+            <End Role="Services" EntitySet="Services" />
+          </AssociationSet>
+          <EntitySet Name="Analyzer" EntityType="LabolatoryDBModel.Analyzer" />
+          <AssociationSet Name="FK_Analyzer_Services" Association="LabolatoryDBModel.FK_Analyzer_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="Analyzer" EntitySet="Analyzer" />
+          </AssociationSet>
+          <EntitySet Name="Order" EntityType="LabolatoryDBModel.Order" />
+          <EntitySet Name="StatusOrder" EntityType="LabolatoryDBModel.StatusOrder" />
+          <EntitySet Name="StatusService" EntityType="LabolatoryDBModel.StatusService" />
+          <AssociationSet Name="FK_Order_StatusOrder" Association="LabolatoryDBModel.FK_Order_StatusOrder">
+            <End Role="StatusOrder" EntitySet="StatusOrder" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_StatusService" Association="LabolatoryDBModel.FK_Order_StatusService">
+            <End Role="StatusService" EntitySet="StatusService" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Services_Order" Association="LabolatoryDBModel.FK_Services_Order">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="Services" EntitySet="Services" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Analyzer">
+          <Key>
+            <PropertyRef Name="Code_Service" />
+            <PropertyRef Name="DateOfStart" />
+            <PropertyRef Name="DateOfWork" />
+            <PropertyRef Name="isDelete" />
+          </Key>
+          <Property Name="Code_Service" Type="Int32" Nullable="false" />
+          <Property Name="DateOfStart" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateOfWork" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Services" Relationship="LabolatoryDBModel.FK_Analyzer_Services" FromRole="Analyzer" ToRole="Services" />
+          <Property Name="isDelete" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Analyzer_Services">
+          <End Type="LabolatoryDBModel.Services" Role="Services" Multiplicity="1" />
+          <End Type="LabolatoryDBModel.Analyzer" Role="Analyzer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="Analyzer">
+              <PropertyRef Name="Code_Service" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id_Service" />
+          </Key>
+          <Property Name="Id_Service" Type="Int32" Nullable="false" />
+          <Property Name="DateOfCreate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="StatusService_Id" Type="Int32" Nullable="false" />
+          <Property Name="StatusOrder_Id" Type="Int32" Nullable="false" />
+          <Property Name="AmountDayForCreate" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="StatusOrder" Relationship="LabolatoryDBModel.FK_Order_StatusOrder" FromRole="Order" ToRole="StatusOrder" />
+          <NavigationProperty Name="StatusService" Relationship="LabolatoryDBModel.FK_Order_StatusService" FromRole="Order" ToRole="StatusService" />
+          <NavigationProperty Name="Services" Relationship="LabolatoryDBModel.FK_Services_Order" FromRole="Order" ToRole="Services" />
+        </EntityType>
+        <EntityType Name="StatusOrder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Order" Relationship="LabolatoryDBModel.FK_Order_StatusOrder" FromRole="StatusOrder" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="StatusService">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Order" Relationship="LabolatoryDBModel.FK_Order_StatusService" FromRole="StatusService" ToRole="Order" />
+        </EntityType>
+        <Association Name="FK_Order_StatusOrder">
+          <End Type="LabolatoryDBModel.StatusOrder" Role="StatusOrder" Multiplicity="1" />
+          <End Type="LabolatoryDBModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusOrder">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="StatusOrder_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_StatusService">
+          <End Type="LabolatoryDBModel.StatusService" Role="StatusService" Multiplicity="1" />
+          <End Type="LabolatoryDBModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusService">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="StatusService_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Services_Order">
+          <End Type="LabolatoryDBModel.Order" Role="Order" Multiplicity="1" />
+          <End Type="LabolatoryDBModel.Services" Role="Services" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id_Service" />
+            </Principal>
+            <Dependent Role="Services">
+              <PropertyRef Name="Code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище LabolatoryDBModelContainer" CdmEntityContainer="LabolatoryDBEntities">
+          <EntitySetMapping Name="Employes">
+            <EntityTypeMapping TypeName="LabolatoryDBModel.Employes">
+              <MappingFragment StoreEntitySet="Employes">
+                <ScalarProperty Name="isDelete" ColumnName="isDelete" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Patient">
+            <EntityTypeMapping TypeName="LabolatoryDBModel.Patient">
+              <MappingFragment StoreEntitySet="Patient">
+                <ScalarProperty Name="isDelete" ColumnName="isDelete" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Ip" ColumnName="Ip" />
+                <ScalarProperty Name="Lastenter" ColumnName="Lastenter" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Pasport" ColumnName="Pasport" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Role">
+            <EntityTypeMapping TypeName="LabolatoryDBModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="isDelete" ColumnName="isDelete" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Services">
+            <EntityTypeMapping TypeName="LabolatoryDBModel.Services">
+              <MappingFragment StoreEntitySet="Services">
+                <ScalarProperty Name="isDelete" ColumnName="isDelete" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Service" ColumnName="Service" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Deviation" ColumnName="Deviation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeHasLastTime">
+            <EntityTypeMapping TypeName="LabolatoryDBModel.EmployeHasLastTime">
+              <MappingFragment StoreEntitySet="EmployeHasLastTime">
+                <ScalarProperty Name="isDelete" ColumnName="isDelete" />
+                <ScalarProperty Name="Id_Employe" ColumnName="Id_Employe" />
+                <ScalarProperty Name="LastTime" ColumnName="LastTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="EmployeHasServices" TypeName="LabolatoryDBModel.EmployeHasServices" StoreEntitySet="EmployeHasServices">
+            <EndProperty Name="Employes">
+              <ScalarProperty Name="Id" ColumnName="Id_Employee" />
+            </EndProperty>
+            <EndProperty Name="Services">
+              <ScalarProperty Name="Code" ColumnName="Id_Services" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="Analyzer">
+            <EntityTypeMapping TypeName="LabolatoryDBModel.Analyzer">
+              <MappingFragment StoreEntitySet="Analyzer">
+                <ScalarProperty Name="isDelete" ColumnName="isDelete" />
+                <ScalarProperty Name="DateOfWork" ColumnName="DateOfWork" />
+                <ScalarProperty Name="DateOfStart" ColumnName="DateOfStart" />
+                <ScalarProperty Name="Code_Service" ColumnName="Code_Service" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Order">
+            <EntityTypeMapping TypeName="LabolatoryDBModel.Order">
+              <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="AmountDayForCreate" ColumnName="AmountDayForCreate" />
+                <ScalarProperty Name="StatusOrder_Id" ColumnName="StatusOrder_Id" />
+                <ScalarProperty Name="StatusService_Id" ColumnName="StatusService_Id" />
+                <ScalarProperty Name="DateOfCreate" ColumnName="DateOfCreate" />
+                <ScalarProperty Name="Id_Service" ColumnName="Id_Service" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatusOrder">
+            <EntityTypeMapping TypeName="LabolatoryDBModel.StatusOrder">
+              <MappingFragment StoreEntitySet="StatusOrder">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatusService">
+            <EntityTypeMapping TypeName="LabolatoryDBModel.StatusService">
+              <MappingFragment StoreEntitySet="StatusService">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
