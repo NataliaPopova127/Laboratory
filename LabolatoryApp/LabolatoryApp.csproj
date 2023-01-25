@@ -71,6 +71,9 @@
     <Compile Include="Models\Entity\EmployeHasLastTime.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entity\EmployeHasServices.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Entity\Employes.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
@@ -107,6 +110,7 @@
     <Compile Include="Models\Entity\StatusService.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PatientModel.cs" />
     <Compile Include="View\Pages\AnalyzerForAssistantPage.xaml.cs">
       <DependentUpon>AnalyzerForAssistantPage.xaml</DependentUpon>
     </Compile>
@@ -119,6 +123,9 @@
     <Compile Include="View\Pages\MakeReportPage.xaml.cs">
       <DependentUpon>MakeReportPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Pages\PatientListPage.xaml.cs">
+      <DependentUpon>PatientListPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Pages\SignInHistoryOfUsersPage.xaml.cs">
       <DependentUpon>SignInHistoryOfUsersPage.xaml</DependentUpon>
     </Compile>
@@ -127,6 +134,9 @@
     </Compile>
     <Compile Include="View\Windows\AccountantWindow.xaml.cs">
       <DependentUpon>AccountantWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Windows\AddPatientWindow.xaml.cs">
+      <DependentUpon>AddPatientWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Windows\AdminWindow.xaml.cs">
       <DependentUpon>AdminWindow.xaml</DependentUpon>
@@ -168,6 +178,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Pages\PatientListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Pages\SignInHistoryOfUsersPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -177,6 +191,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Windows\AccountantWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Windows\AddPatientWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -231,7 +249,18 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Models\Entity\EntityModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EntityModel.edmx</DependentUpon>
+      <LastGenOutput>EntityModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Entity\EntityModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EntityModel.edmx</DependentUpon>
+      <LastGenOutput>EntityModel.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\logo.ico" />
   </ItemGroup>
@@ -240,18 +269,6 @@
     <Resource Include="Assets\laborant_2.png" />
     <Resource Include="Assets\Admin.png" />
     <Resource Include="Assets\Accountant.jpeg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Models\Entity\EntityModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>EntityModel.Context.cs</LastGenOutput>
-      <DependentUpon>EntityModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="Models\Entity\EntityModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>EntityModel.edmx</DependentUpon>
-      <LastGenOutput>EntityModel.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

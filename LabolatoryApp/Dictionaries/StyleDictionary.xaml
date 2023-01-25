@@ -8,6 +8,7 @@
             </Style>
             <Style TargetType="TextBlock">
                 <Setter Property="FontFamily" Value="Comic Sans MS"/>
+                <Setter Property="FontSize" Value="15"/>
             </Style>
             <Style TargetType="Border">
                 <Setter Property="Background" Value="{StaticResource mainBackgroundColor2}"/>

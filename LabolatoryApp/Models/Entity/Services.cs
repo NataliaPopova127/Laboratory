@@ -17,8 +17,9 @@ namespace LabolatoryApp.Models.Entity
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Services()
         {
-            this.Employes = new HashSet<Employes>();
+            this.EmployeHasServices = new HashSet<EmployeHasServices>();
             this.Analyzer = new HashSet<Analyzer>();
+            this.Order = new HashSet<Order>();
         }
     
         public int Code { get; set; }
@@ -29,9 +30,10 @@ namespace LabolatoryApp.Models.Entity
         public bool isDelete { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Employes> Employes { get; set; }
+        public virtual ICollection<EmployeHasServices> EmployeHasServices { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Analyzer> Analyzer { get; set; }
-        public virtual Order Order { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Order> Order { get; set; }
     }
 }

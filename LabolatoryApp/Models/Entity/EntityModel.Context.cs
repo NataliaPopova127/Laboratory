@@ -25,14 +25,15 @@ namespace LabolatoryApp.Models.Entity
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<EmployeHasServices> EmployeHasServices { get; set; }
         public virtual DbSet<Employes> Employes { get; set; }
+        public virtual DbSet<Order> Order { get; set; }
         public virtual DbSet<Patient> Patient { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<Services> Services { get; set; }
-        public virtual DbSet<EmployeHasLastTime> EmployeHasLastTime { get; set; }
-        public virtual DbSet<Analyzer> Analyzer { get; set; }
-        public virtual DbSet<Order> Order { get; set; }
         public virtual DbSet<StatusOrder> StatusOrder { get; set; }
         public virtual DbSet<StatusService> StatusService { get; set; }
+        public virtual DbSet<Analyzer> Analyzer { get; set; }
+        public virtual DbSet<EmployeHasLastTime> EmployeHasLastTime { get; set; }
     }
 }

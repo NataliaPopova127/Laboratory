@@ -43,3 +43,7 @@ D:\RusDB\LabolatoryApp\LabolatoryApp\bin\Debug\EntityFramework.SqlServer.xml
 D:\RusDB\LabolatoryApp\LabolatoryApp\bin\Debug\ru\EntityFramework.resources.dll
 D:\RusDB\LabolatoryApp\LabolatoryApp\obj\Debug\LabolatoryApp_Content.g.cs
 D:\RusDB\LabolatoryApp\LabolatoryApp\obj\Debug\LabolatoryApp.csproj.CopyComplete
+D:\RusDB\LabolatoryApp\LabolatoryApp\obj\Debug\View\Windows\AddPatientWindow.g.cs
+D:\RusDB\LabolatoryApp\LabolatoryApp\obj\Debug\View\Windows\AddPatientWindow.baml
+D:\RusDB\LabolatoryApp\LabolatoryApp\obj\Debug\View\Pages\PatientListPage.g.cs
+D:\RusDB\LabolatoryApp\LabolatoryApp\obj\Debug\View\Pages\PatientListPage.baml

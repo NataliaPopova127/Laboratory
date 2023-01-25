@@ -71,6 +71,10 @@ namespace LabolatoryApp.View.Windows
         {
             mainFrame.Content = new TakeBiomaterialPage();
         }
-        
+
+        private void btnViewListPatient_Click(object sender, RoutedEventArgs e)
+        {
+            mainFrame.Content = new PatientListPage();
+        }
     }
 }

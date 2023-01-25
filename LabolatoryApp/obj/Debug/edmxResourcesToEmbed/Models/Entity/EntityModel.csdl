@@ -1,5 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="LabolatoryDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="EmployeHasServices">
+    <Key>
+      <PropertyRef Name="Id_Employee" />
+      <PropertyRef Name="Id_Services" />
+    </Key>
+    <Property Name="Id_Employee" Type="Int32" Nullable="false" />
+    <Property Name="Id_Services" Type="Int32" Nullable="false" />
+    <Property Name="isDelete" Type="Boolean" />
+    <NavigationProperty Name="Employes" Relationship="Self.FK_EmployeHasServices_Employes" FromRole="EmployeHasServices" ToRole="Employes" />
+    <NavigationProperty Name="Services" Relationship="Self.FK_EmployeHasServices_Services" FromRole="EmployeHasServices" ToRole="Services" />
+  </EntityType>
   <EntityType Name="Employes">
     <Key>
       <PropertyRef Name="Id" />
@@ -9,10 +20,24 @@
     <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="RoleId" Type="Int32" Nullable="false" />
+    <Property Name="isDelete" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="EmployeHasServices" Relationship="Self.FK_EmployeHasServices_Employes" FromRole="Employes" ToRole="EmployeHasServices" />
     <NavigationProperty Name="EmployeHasLastTime" Relationship="Self.FK_EmployeHasLastTime_Employes" FromRole="Employes" ToRole="EmployeHasLastTime" />
     <NavigationProperty Name="Role" Relationship="Self.FK_Employes_Role" FromRole="Employes" ToRole="Role" />
-    <NavigationProperty Name="Services" Relationship="Self.EmployeHasServices" FromRole="Employes" ToRole="Services" />
-    <Property Name="isDelete" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="Int32" Nullable="false" />
+    <Property Name="DateOfCreate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="StatusService_Id" Type="Int32" Nullable="false" />
+    <Property Name="StatusOrder_Id" Type="Int32" Nullable="false" />
+    <Property Name="AmountDayForCreate" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="StatusOrder" Relationship="Self.FK_Order_StatusOrder" FromRole="Order" ToRole="StatusOrder" />
+    <NavigationProperty Name="StatusService" Relationship="Self.FK_Order_StatusService" FromRole="Order" ToRole="StatusService" />
+    <NavigationProperty Name="Services" Relationship="Self.OrderHasServices" FromRole="Order" ToRole="Services" />
+    <NavigationProperty Name="Patient" Relationship="Self.PatientHasOrder" FromRole="Order" ToRole="Patient" />
   </EntityType>
   <EntityType Name="Patient">
     <Key>
@@ -21,14 +46,16 @@
     <Property Name="Id" Type="Int32" Nullable="false" />
     <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Ip" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="Lastenter" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="Type" Type="Int32" Nullable="false" />
     <Property Name="Pasport" Type="Int32" />
     <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="isDelete" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Order" Relationship="Self.PatientHasOrder" FromRole="Patient" ToRole="Order" />
   </EntityType>
   <EntityType Name="Role">
     <Key>
@@ -36,8 +63,8 @@
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" />
     <Property Name="Value" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-    <NavigationProperty Name="Employes" Relationship="Self.FK_Employes_Role" FromRole="Role" ToRole="Employes" />
     <Property Name="isDelete" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Employes" Relationship="Self.FK_Employes_Role" FromRole="Role" ToRole="Employes" />
   </EntityType>
   <EntityType Name="Services">
     <Key>
@@ -48,10 +75,39 @@
     <Property Name="Price" Type="Double" Nullable="false" />
     <Property Name="Date" Type="DateTime" Precision="0" />
     <Property Name="Deviation" Type="Double" />
-    <NavigationProperty Name="Employes" Relationship="Self.EmployeHasServices" FromRole="Services" ToRole="Employes" />
     <Property Name="isDelete" Type="Boolean" Nullable="false" />
-    <NavigationProperty Name="Analyzer" Relationship="LabolatoryDBModel.FK_Analyzer_Services" FromRole="Services" ToRole="Analyzer" />
-    <NavigationProperty Name="Order" Relationship="LabolatoryDBModel.FK_Services_Order" FromRole="Services" ToRole="Order" />
+    <NavigationProperty Name="EmployeHasServices" Relationship="Self.FK_EmployeHasServices_Services" FromRole="Services" ToRole="EmployeHasServices" />
+    <NavigationProperty Name="Analyzer" Relationship="Self.FK_Analyzer_Services" FromRole="Services" ToRole="Analyzer" />
+    <NavigationProperty Name="Order" Relationship="Self.OrderHasServices" FromRole="Services" ToRole="Order" />
+  </EntityType>
+  <EntityType Name="StatusOrder">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Value" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Order" Relationship="Self.FK_Order_StatusOrder" FromRole="StatusOrder" ToRole="Order" />
+  </EntityType>
+  <EntityType Name="StatusService">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Value" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Order" Relationship="Self.FK_Order_StatusService" FromRole="StatusService" ToRole="Order" />
+  </EntityType>
+  <EntityType Name="Analyzer">
+    <Key>
+      <PropertyRef Name="Code_Service" />
+      <PropertyRef Name="DateOfStart" />
+      <PropertyRef Name="DateOfWork" />
+      <PropertyRef Name="isDelete" />
+    </Key>
+    <Property Name="Code_Service" Type="Int32" Nullable="false" />
+    <Property Name="DateOfStart" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="DateOfWork" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="isDelete" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Services" Relationship="Self.FK_Analyzer_Services" FromRole="Analyzer" ToRole="Services" />
   </EntityType>
   <EntityType Name="EmployeHasLastTime">
     <Key>
@@ -61,9 +117,33 @@
     </Key>
     <Property Name="Id_Employe" Type="Int32" Nullable="false" />
     <Property Name="LastTime" Type="DateTime" Nullable="false" Precision="3" />
-    <NavigationProperty Name="Employes" Relationship="Self.FK_EmployeHasLastTime_Employes" FromRole="EmployeHasLastTime" ToRole="Employes" />
     <Property Name="isDelete" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Employes" Relationship="Self.FK_EmployeHasLastTime_Employes" FromRole="EmployeHasLastTime" ToRole="Employes" />
   </EntityType>
+  <Association Name="FK_EmployeHasServices_Employes">
+    <End Role="Employes" Type="Self.Employes" Multiplicity="1" />
+    <End Role="EmployeHasServices" Type="Self.EmployeHasServices" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employes">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="EmployeHasServices">
+        <PropertyRef Name="Id_Employee" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EmployeHasServices_Services">
+    <End Role="Services" Type="Self.Services" Multiplicity="1" />
+    <End Role="EmployeHasServices" Type="Self.EmployeHasServices" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Services">
+        <PropertyRef Name="Code" />
+      </Principal>
+      <Dependent Role="EmployeHasServices">
+        <PropertyRef Name="Id_Services" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_EmployeHasLastTime_Employes">
     <End Role="Employes" Type="Self.Employes" Multiplicity="1" />
     <End Role="EmployeHasLastTime" Type="Self.EmployeHasLastTime" Multiplicity="*" />
@@ -88,106 +168,9 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="EmployeHasServices">
-    <End Role="Employes" Type="Self.Employes" Multiplicity="*" />
-    <End Role="Services" Type="Self.Services" Multiplicity="*" />
-  </Association>
-  <EntityContainer Name="LabolatoryDBEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="Employes" EntityType="Self.Employes" />
-    <EntitySet Name="Patient" EntityType="Self.Patient" />
-    <EntitySet Name="Role" EntityType="Self.Role" />
-    <EntitySet Name="Services" EntityType="Self.Services" />
-    <EntitySet Name="EmployeHasLastTime" EntityType="Self.EmployeHasLastTime" />
-    <AssociationSet Name="FK_EmployeHasLastTime_Employes" Association="Self.FK_EmployeHasLastTime_Employes">
-      <End Role="Employes" EntitySet="Employes" />
-      <End Role="EmployeHasLastTime" EntitySet="EmployeHasLastTime" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Employes_Role" Association="Self.FK_Employes_Role">
-      <End Role="Role" EntitySet="Role" />
-      <End Role="Employes" EntitySet="Employes" />
-    </AssociationSet>
-    <AssociationSet Name="EmployeHasServices" Association="Self.EmployeHasServices">
-      <End Role="Employes" EntitySet="Employes" />
-      <End Role="Services" EntitySet="Services" />
-    </AssociationSet>
-    <EntitySet Name="Analyzer" EntityType="LabolatoryDBModel.Analyzer" />
-    <AssociationSet Name="FK_Analyzer_Services" Association="LabolatoryDBModel.FK_Analyzer_Services">
-      <End Role="Services" EntitySet="Services" />
-      <End Role="Analyzer" EntitySet="Analyzer" />
-    </AssociationSet>
-    <EntitySet Name="Order" EntityType="LabolatoryDBModel.Order" />
-    <EntitySet Name="StatusOrder" EntityType="LabolatoryDBModel.StatusOrder" />
-    <EntitySet Name="StatusService" EntityType="LabolatoryDBModel.StatusService" />
-    <AssociationSet Name="FK_Order_StatusOrder" Association="LabolatoryDBModel.FK_Order_StatusOrder">
-      <End Role="StatusOrder" EntitySet="StatusOrder" />
-      <End Role="Order" EntitySet="Order" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Order_StatusService" Association="LabolatoryDBModel.FK_Order_StatusService">
-      <End Role="StatusService" EntitySet="StatusService" />
-      <End Role="Order" EntitySet="Order" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Services_Order" Association="LabolatoryDBModel.FK_Services_Order">
-      <End Role="Order" EntitySet="Order" />
-      <End Role="Services" EntitySet="Services" />
-    </AssociationSet>
-  </EntityContainer>
-  <EntityType Name="Analyzer">
-    <Key>
-      <PropertyRef Name="Code_Service" />
-      <PropertyRef Name="DateOfStart" />
-      <PropertyRef Name="DateOfWork" />
-      <PropertyRef Name="isDelete" />
-    </Key>
-    <Property Name="Code_Service" Type="Int32" Nullable="false" />
-    <Property Name="DateOfStart" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="DateOfWork" Type="DateTime" Nullable="false" Precision="3" />
-    <NavigationProperty Name="Services" Relationship="LabolatoryDBModel.FK_Analyzer_Services" FromRole="Analyzer" ToRole="Services" />
-    <Property Name="isDelete" Type="Boolean" Nullable="false" />
-  </EntityType>
-  <Association Name="FK_Analyzer_Services">
-    <End Type="LabolatoryDBModel.Services" Role="Services" Multiplicity="1" />
-    <End Type="LabolatoryDBModel.Analyzer" Role="Analyzer" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Services">
-        <PropertyRef Name="Code" />
-      </Principal>
-      <Dependent Role="Analyzer">
-        <PropertyRef Name="Code_Service" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <EntityType Name="Order">
-    <Key>
-      <PropertyRef Name="Id_Service" />
-    </Key>
-    <Property Name="Id_Service" Type="Int32" Nullable="false" />
-    <Property Name="DateOfCreate" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="StatusService_Id" Type="Int32" Nullable="false" />
-    <Property Name="StatusOrder_Id" Type="Int32" Nullable="false" />
-    <Property Name="AmountDayForCreate" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="StatusOrder" Relationship="LabolatoryDBModel.FK_Order_StatusOrder" FromRole="Order" ToRole="StatusOrder" />
-    <NavigationProperty Name="StatusService" Relationship="LabolatoryDBModel.FK_Order_StatusService" FromRole="Order" ToRole="StatusService" />
-    <NavigationProperty Name="Services" Relationship="LabolatoryDBModel.FK_Services_Order" FromRole="Order" ToRole="Services" />
-  </EntityType>
-  <EntityType Name="StatusOrder">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" />
-    <Property Name="Value" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Order" Relationship="LabolatoryDBModel.FK_Order_StatusOrder" FromRole="StatusOrder" ToRole="Order" />
-  </EntityType>
-  <EntityType Name="StatusService">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" />
-    <Property Name="Value" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Order" Relationship="LabolatoryDBModel.FK_Order_StatusService" FromRole="StatusService" ToRole="Order" />
-  </EntityType>
   <Association Name="FK_Order_StatusOrder">
-    <End Type="LabolatoryDBModel.StatusOrder" Role="StatusOrder" Multiplicity="1" />
-    <End Type="LabolatoryDBModel.Order" Role="Order" Multiplicity="*" />
+    <End Role="StatusOrder" Type="Self.StatusOrder" Multiplicity="1" />
+    <End Role="Order" Type="Self.Order" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="StatusOrder">
         <PropertyRef Name="Id" />
@@ -198,8 +181,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Order_StatusService">
-    <End Type="LabolatoryDBModel.StatusService" Role="StatusService" Multiplicity="1" />
-    <End Type="LabolatoryDBModel.Order" Role="Order" Multiplicity="*" />
+    <End Role="StatusService" Type="Self.StatusService" Multiplicity="1" />
+    <End Role="Order" Type="Self.Order" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="StatusService">
         <PropertyRef Name="Id" />
@@ -209,16 +192,72 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Services_Order">
-    <End Type="LabolatoryDBModel.Order" Role="Order" Multiplicity="1" />
-    <End Type="LabolatoryDBModel.Services" Role="Services" Multiplicity="0..1" />
+  <Association Name="FK_Analyzer_Services">
+    <End Role="Services" Type="Self.Services" Multiplicity="1" />
+    <End Role="Analyzer" Type="Self.Analyzer" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Order">
-        <PropertyRef Name="Id_Service" />
-      </Principal>
-      <Dependent Role="Services">
+      <Principal Role="Services">
         <PropertyRef Name="Code" />
+      </Principal>
+      <Dependent Role="Analyzer">
+        <PropertyRef Name="Code_Service" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="OrderHasServices">
+    <End Role="Order" Type="Self.Order" Multiplicity="*" />
+    <End Role="Services" Type="Self.Services" Multiplicity="*" />
+  </Association>
+  <Association Name="PatientHasOrder">
+    <End Role="Order" Type="Self.Order" Multiplicity="*" />
+    <End Role="Patient" Type="Self.Patient" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="LabolatoryDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="EmployeHasServices" EntityType="Self.EmployeHasServices" />
+    <EntitySet Name="Employes" EntityType="Self.Employes" />
+    <EntitySet Name="Order" EntityType="Self.Order" />
+    <EntitySet Name="Patient" EntityType="Self.Patient" />
+    <EntitySet Name="Role" EntityType="Self.Role" />
+    <EntitySet Name="Services" EntityType="Self.Services" />
+    <EntitySet Name="StatusOrder" EntityType="Self.StatusOrder" />
+    <EntitySet Name="StatusService" EntityType="Self.StatusService" />
+    <EntitySet Name="Analyzer" EntityType="Self.Analyzer" />
+    <EntitySet Name="EmployeHasLastTime" EntityType="Self.EmployeHasLastTime" />
+    <AssociationSet Name="FK_EmployeHasServices_Employes" Association="Self.FK_EmployeHasServices_Employes">
+      <End Role="Employes" EntitySet="Employes" />
+      <End Role="EmployeHasServices" EntitySet="EmployeHasServices" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EmployeHasServices_Services" Association="Self.FK_EmployeHasServices_Services">
+      <End Role="Services" EntitySet="Services" />
+      <End Role="EmployeHasServices" EntitySet="EmployeHasServices" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EmployeHasLastTime_Employes" Association="Self.FK_EmployeHasLastTime_Employes">
+      <End Role="Employes" EntitySet="Employes" />
+      <End Role="EmployeHasLastTime" EntitySet="EmployeHasLastTime" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Employes_Role" Association="Self.FK_Employes_Role">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="Employes" EntitySet="Employes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_StatusOrder" Association="Self.FK_Order_StatusOrder">
+      <End Role="StatusOrder" EntitySet="StatusOrder" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_StatusService" Association="Self.FK_Order_StatusService">
+      <End Role="StatusService" EntitySet="StatusService" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Analyzer_Services" Association="Self.FK_Analyzer_Services">
+      <End Role="Services" EntitySet="Services" />
+      <End Role="Analyzer" EntitySet="Analyzer" />
+    </AssociationSet>
+    <AssociationSet Name="OrderHasServices" Association="Self.OrderHasServices">
+      <End Role="Order" EntitySet="Order" />
+      <End Role="Services" EntitySet="Services" />
+    </AssociationSet>
+    <AssociationSet Name="PatientHasOrder" Association="Self.PatientHasOrder">
+      <End Role="Order" EntitySet="Order" />
+      <End Role="Patient" EntitySet="Patient" />
+    </AssociationSet>
+  </EntityContainer>
 </Schema>

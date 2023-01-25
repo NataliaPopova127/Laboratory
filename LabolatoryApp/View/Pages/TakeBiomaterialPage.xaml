@@ -9,6 +9,16 @@
       Title="TakeBiomaterialPage">
 
     <Grid>
-        <TextBlock Text="Принять биоматериал" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="Код пробирки: " />
+            <TextBox x:Name="tbCodeMaterial"/>
+            <TextBlock Text="Фамилия пациента: " />
+            <TextBox x:Name="tbSurnamePatient"/>
+            <TextBlock Text="Имя пациента: " />
+            <TextBox x:Name="tbNamePatient"/>
+            <TextBlock Text="Отчество пациента (если есть): " />
+            <TextBox x:Name="tbLastnamePatient"/>
+            <Button Content="Сформировать заказ" x:Name="btnMakeOrder" Click="btnMakeOrder_Click"/>
+        </StackPanel>
     </Grid>
 </Page>

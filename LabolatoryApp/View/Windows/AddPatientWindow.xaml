@@ -1,0 +1,44 @@
+﻿<Window x:Class="LabolatoryApp.View.Windows.AddPatientWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LabolatoryApp.View.Windows"
+        mc:Ignorable="d"
+        Icon="/Assets/logo.ico"
+        WindowStartupLocation="CenterScreen"
+        Title="Новый пациент" Height="650" Width="400">
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="Имя"/>
+            <TextBox/>
+            <TextBlock Text="Фамилия"/>
+            <TextBox/>
+            <TextBlock Text="Отчество (если есть)"/>
+            <TextBox/>
+            <TextBlock Text="Дата рождения"/>
+            <TextBox/>
+            <TextBlock Text="Телефон"/>
+            <TextBox/>
+            <TextBlock Text="Серия и номер паспорта (без пробелов)"/>
+            <TextBox/>
+            <TextBlock Text="Email"/>
+            <TextBox/>
+            <TextBlock Text="Номер страхового полиса"/>
+            <TextBox/>
+            <TextBlock Text="Тип страхового полиса"/>
+            <ComboBox>
+                <ComboBoxItem Content="Тип А"/>
+                <ComboBoxItem Content="Тип В"/>
+                <ComboBoxItem Content="Тип С"/>
+            </ComboBox>
+            <TextBlock Text="Название страховой компании"/>
+            <ComboBox>
+                <ComboBoxItem Content="Страховая компания 1"/>
+                <ComboBoxItem Content="Страховая компания 2"/>
+                <ComboBoxItem Content="Страховая компания 3"/>
+            </ComboBox>
+            <Button x:Name="btnAddPatient" Content="Добавить пациента" Click="btnAddPatient_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

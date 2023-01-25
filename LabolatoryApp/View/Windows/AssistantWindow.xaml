@@ -37,7 +37,8 @@
         <StackPanel Grid.Row="1" Margin="10 50 10 0">
             <Button x:Name="btnMakeReport" Content="Сформировать отчет" Margin="0 0 0 10"
                     Click="btnMakeReport_Click"/>
-            <Button x:Name="btnTakeBiomaterial" Content="Принять биоматериалы" Click="btnTakeBiomaterial_Click"/>
+            <Button x:Name="btnTakeBiomaterial" Content="Принять биоматериалы" Click="btnTakeBiomaterial_Click" Margin="0 0 0 10"/>
+            <Button x:Name="btnViewListPatient" Content="Список пациентов" Click="btnViewListPatient_Click" Margin="0 0 0 10"/>
         </StackPanel>
 
         <Frame Grid.Row="1" Grid.Column="1" x:Name="mainFrame" NavigationUIVisibility="Hidden"/>

@@ -48,13 +48,21 @@
   </EntityType>
   <EntityType Name="Order">
     <Key>
-      <PropertyRef Name="Id_Service" />
+      <PropertyRef Name="Code" />
     </Key>
-    <Property Name="Id_Service" Type="int" Nullable="false" />
+    <Property Name="Code" Type="int" Nullable="false" />
     <Property Name="DateOfCreate" Type="datetime" Nullable="false" />
     <Property Name="StatusService_Id" Type="int" Nullable="false" />
     <Property Name="StatusOrder_Id" Type="int" Nullable="false" />
     <Property Name="AmountDayForCreate" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OrderHasServices">
+    <Key>
+      <PropertyRef Name="Id_Order" />
+      <PropertyRef Name="Id_Services" />
+    </Key>
+    <Property Name="Id_Order" Type="int" Nullable="false" />
+    <Property Name="Id_Services" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Patient">
     <Key>
@@ -63,14 +71,23 @@
     <Property Name="Id" Type="int" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Surname" Type="nvarchar" MaxLength="50" Nullable="false" />
-    <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
-    <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Lastname" Type="nvarchar" MaxLength="50" />
+    <Property Name="Login" Type="nvarchar" MaxLength="50" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" />
     <Property Name="Ip" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Lastenter" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Type" Type="int" Nullable="false" />
     <Property Name="Pasport" Type="int" />
     <Property Name="Email" Type="nvarchar" MaxLength="50" />
     <Property Name="isDelete" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PatientHasOrder">
+    <Key>
+      <PropertyRef Name="Id_Patient" />
+      <PropertyRef Name="Id_Order" />
+    </Key>
+    <Property Name="Id_Patient" Type="int" Nullable="false" />
+    <Property Name="Id_Order" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Role">
     <Key>
@@ -189,15 +206,51 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Services_Order">
+  <Association Name="FK_OrderHasServices_Order">
     <End Role="Order" Type="Self.Order" Multiplicity="1" />
-    <End Role="Services" Type="Self.Services" Multiplicity="0..1" />
+    <End Role="OrderHasServices" Type="Self.OrderHasServices" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Order">
-        <PropertyRef Name="Id_Service" />
-      </Principal>
-      <Dependent Role="Services">
         <PropertyRef Name="Code" />
+      </Principal>
+      <Dependent Role="OrderHasServices">
+        <PropertyRef Name="Id_Order" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderHasServices_Services">
+    <End Role="Services" Type="Self.Services" Multiplicity="1" />
+    <End Role="OrderHasServices" Type="Self.OrderHasServices" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Services">
+        <PropertyRef Name="Code" />
+      </Principal>
+      <Dependent Role="OrderHasServices">
+        <PropertyRef Name="Id_Services" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PatientHasOrder_Order">
+    <End Role="Order" Type="Self.Order" Multiplicity="1" />
+    <End Role="PatientHasOrder" Type="Self.PatientHasOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="Code" />
+      </Principal>
+      <Dependent Role="PatientHasOrder">
+        <PropertyRef Name="Id_Order" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PatientHasOrder_Patient">
+    <End Role="Patient" Type="Self.Patient" Multiplicity="1" />
+    <End Role="PatientHasOrder" Type="Self.PatientHasOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Patient">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PatientHasOrder">
+        <PropertyRef Name="Id_Patient" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -205,7 +258,9 @@
     <EntitySet Name="EmployeHasServices" EntityType="Self.EmployeHasServices" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Employes" EntityType="Self.Employes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OrderHasServices" EntityType="Self.OrderHasServices" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Patient" EntityType="Self.Patient" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PatientHasOrder" EntityType="Self.PatientHasOrder" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Services" EntityType="Self.Services" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="StatusOrder" EntityType="Self.StatusOrder" Schema="dbo" store:Type="Tables" />
@@ -253,9 +308,21 @@
       <End Role="StatusService" EntitySet="StatusService" />
       <End Role="Order" EntitySet="Order" />
     </AssociationSet>
-    <AssociationSet Name="FK_Services_Order" Association="Self.FK_Services_Order">
+    <AssociationSet Name="FK_OrderHasServices_Order" Association="Self.FK_OrderHasServices_Order">
       <End Role="Order" EntitySet="Order" />
+      <End Role="OrderHasServices" EntitySet="OrderHasServices" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderHasServices_Services" Association="Self.FK_OrderHasServices_Services">
       <End Role="Services" EntitySet="Services" />
+      <End Role="OrderHasServices" EntitySet="OrderHasServices" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PatientHasOrder_Order" Association="Self.FK_PatientHasOrder_Order">
+      <End Role="Order" EntitySet="Order" />
+      <End Role="PatientHasOrder" EntitySet="PatientHasOrder" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PatientHasOrder_Patient" Association="Self.FK_PatientHasOrder_Patient">
+      <End Role="Patient" EntitySet="Patient" />
+      <End Role="PatientHasOrder" EntitySet="PatientHasOrder" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

@@ -22,7 +22,6 @@ namespace LabolatoryApp.Core
                         AuthorizationWindow.Role = employe.RoleId;
                         return true;
                     }
-                    return false;
                 }
                 return false;
             }

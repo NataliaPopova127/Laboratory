@@ -17,8 +17,8 @@ namespace LabolatoryApp.Models.Entity
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Employes()
         {
+            this.EmployeHasServices = new HashSet<EmployeHasServices>();
             this.EmployeHasLastTime = new HashSet<EmployeHasLastTime>();
-            this.Services = new HashSet<Services>();
         }
     
         public int Id { get; set; }
@@ -29,9 +29,9 @@ namespace LabolatoryApp.Models.Entity
         public bool isDelete { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EmployeHasServices> EmployeHasServices { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmployeHasLastTime> EmployeHasLastTime { get; set; }
         public virtual Role Role { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Services> Services { get; set; }
     }
 }
